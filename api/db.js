@@ -14,3 +14,4 @@ db.connect((err) => {
   }
   console.log("Connected to database successfully!");
 });
+

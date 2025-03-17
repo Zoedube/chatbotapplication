@@ -1,12 +1,11 @@
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
-import OpenAI from "openai";
-import dotenv from 'dotenv';
+import { GoogleGenerativeAI } from "@google/generative-ai"; // Replace OpenAI with Gemini
+import dotenv from "dotenv";
 dotenv.config();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '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',
-});
+// Initialize Gemini with your API key
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -31,64 +30,66 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-export const sendMessage = [verifyToken, async (req, res) => {
-  try {
-    const { prompt } = req.body;
-    const userId = req.user.id;
+export const sendMessage = [
+  verifyToken,
+  async (req, res) => {
+    try {
+      const { prompt } = req.body;
+      const userId = req.user.id;
 
-    if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+      if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
-    console.log("Sending OpenAI request for user:", userId, "with prompt:", prompt);
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 1000,
-    });
+      console.log("Sending Gemini request for user:", userId, "with prompt:", prompt);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Free tier model
+      const result = await model.generateContent(prompt);
+      const aiResponse = await result.response.text();
+      console.log("Gemini response received:", aiResponse);
 
-    const aiResponse = completion.choices[0].message.content;
-    console.log("OpenAI response received:", aiResponse);
+      const q = "INSERT INTO chat_history(`user_id`, `prompt`, `response`) VALUES (?)";
+      const values = [userId, prompt, aiResponse];
+      console.log("Executing query with values:", values);
 
-    const q = "INSERT INTO chat_history(`user_id`, `prompt`, `response`) VALUES (?)";
-    const values = [userId, prompt, aiResponse];
-    console.log("Executing query with values:", values);
-
-    db.query(q, values, (err, data) => {
-      if (err) {
-        console.error("Database insert error:", err);
-        return res.status(500).json({ message: "Database error", details: err.message });
-      }
-      console.log("Message saved to DB with ID:", data.insertId);
-      return res.status(200).json({
-        id: data.insertId,
-        prompt,
-        response: aiResponse,
-        created_at: new Date(),
+      db.query(q, [values], (err, data) => { // Note: Changed to array [values] for mysql2
+        if (err) {
+          console.error("Database insert error:", err);
+          return res.status(500).json({ message: "Database error", details: err.message });
+        }
+        console.log("Message saved to DB with ID:", data.insertId);
+        return res.status(200).json({
+          id: data.insertId,
+          prompt,
+          response: aiResponse,
+          created_at: new Date(),
+        });
       });
-    });
-  } catch (error) {
-    console.error("SendMessage error:", error);
-    return res.status(500).json({ message: "Error processing request", details: error.message });
-  }
-}];
+    } catch (error) {
+      console.error("SendMessage error:", error);
+      return res.status(500).json({ message: "Error processing request", details: error.message });
+    }
+  },
+];
 
-export const getChatHistory = [verifyToken, (req, res) => {
-  try {
-    const userId = req.user.id;
-    console.log("Fetching history for user:", userId);
+export const getChatHistory = [
+  verifyToken,
+  (req, res) => {
+    try {
+      const userId = req.user.id;
+      console.log("Fetching history for user:", userId);
 
-    const q = "SELECT * FROM chat_history WHERE user_id = ? ORDER BY created_at DESC";
-    console.log("Executing query with userId:", userId);
+      const q = "SELECT * FROM chat_history WHERE user_id = ? ORDER BY created_at DESC";
+      console.log("Executing query with userId:", userId);
 
-    db.query(q, [userId], (err, data) => {
-      if (err) {
-        console.error("Database fetch error:", err);
-        return res.status(500).json({ message: "Database error", details: err.message });
-      }
-      console.log("History fetched:", data.length, "records");
-      return res.status(200).json(data);
-    });
-  } catch (error) {
-    console.error("GetChatHistory error:", error);
-    return res.status(500).json({ message: "Error fetching history", details: error.message });
-  }
-}];
+      db.query(q, [userId], (err, data) => {
+        if (err) {
+          console.error("Database fetch error:", err);
+          return res.status(500).json({ message: "Database error", details: err.message });
+        }
+        console.log("History fetched:", data.length, "records");
+        return res.status(200).json(data);
+      });
+    } catch (error) {
+      console.error("GetChatHistory error:", error);
+      return res.status(500).json({ message: "Error fetching history", details: error.message });
+    }
+  },
+];
