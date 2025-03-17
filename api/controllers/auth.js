@@ -31,22 +31,21 @@ export const login = (req, res) => {
 
   db.query(q, [req.body.username], (err, data) => {
     if (err) return res.json(err);
-    if (data.length === 0) return res.status (404).json("User has not been found!");
+    if (data.length === 0) return res.status(404).json("User has not been found!");
 
     const isPasswordCorrect = bcrypt.compareSync(req.body.password, data[0].password);
     if (!isPasswordCorrect) return res.status(400).json("Wrong username or password!");
 
-    const token = jwt.sign({ id: data[0].
-      id }, process.env.JWT_SECRET, {
-        expiresIn: '1d',
+    const token = jwt.sign({ id: data[0].id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
     });
 
     const { password, ...other } = data[0];
-      res.cookie("access_token", token, {
-        httOnly: true, 
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "prodution" ? "None" : "Lax",
-        maxAge: 60 * 60 * 1000,
-      }).status(200).json(other);
+    res.cookie("access_token", token, {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "prodution" ? "None" : "Lax",
+      maxAge: 60 * 60 * 1000,
+    }).status(200).json(other);
   });
-}
+};

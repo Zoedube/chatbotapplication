@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Components/Sidebar.jsx';
-import ChatHeader from './Components/ChatHeader.jsx';
-import SearchHistory from './Components/SearchHistory.jsx';
-import ChatInput from './Components/ChatInput.jsx';
-import ChatFooter from './Components/ChatFooter.jsx';
+import InputDesign from './Components/InputDesign.jsx'; // Use InputDesign instead of individual components
 
 function App() {
+  const [user, setUser] = useState(null); // State to track the logged-in user
+
+  const handleLoginSuccess = (userData) => {
+    console.log("User logged in:", userData); // Debug log
+    setUser(userData); // Update the user state with the response data
+  };
+
   return (
     <div className="flex min-h-screen bg-white-100">
       <Sidebar />
-      <main className="flex flex-col flex-1 p-6 max-md:p-5 max-sm:p-4">
-        <ChatHeader />
-        <SearchHistory />
-        <ChatInput />
-        <ChatFooter />
-      </main>
+      <InputDesign user={user} onLoginSuccess={handleLoginSuccess} /> {/* Pass props to InputDesign */}
     </div>
   );
 }

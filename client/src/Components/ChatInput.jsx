@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { IconSend } from '@tabler/icons-react';
+import axios from 'axios';
 
-const ChatInput = () => {
+const ChatInput = ({ onMessageSent }) => {
   const [inputValue, setInputValue] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
-    setInputValue("");
+  
+    try {
+      const response = await axios.post('http://localhost:3000/api/chat/send', 
+        { prompt: inputValue },
+        { withCredentials: true }
+      );
+      console.log("Response:", response.data);
+      onMessageSent(response.data);
+      setInputValue("");
+    } catch (error) {
+      console.error('Error sending message:', error.response?.data || error.message);
+    }
   };
 
   return (
