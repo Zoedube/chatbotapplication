@@ -4,15 +4,15 @@ import InputDesign from "./Components/InputDesign.jsx";
 import axios from "axios";
 
 function App() {
-  const [user, setUser] = useState(null); // State to track the logged-in user
-  const [history, setHistory] = useState([]); // State to track chat history
+  const [user, setUser] = useState(null);
+  const [history, setHistory] = useState([]); 
 
-  // Fetch chat history when the user changes (login)
+  
   useEffect(() => {
     if (user) {
       axios
         .get("http://localhost:3000/api/chat/history", {
-          withCredentials: true, // Include cookies for authentication
+          withCredentials: true, 
         })
         .then((response) => {
           console.log("Fetched history for user:", user, response.data);
@@ -20,16 +20,16 @@ function App() {
         })
         .catch((error) => {
           console.error("Error fetching history:", error);
-          setHistory([]); // Clear history on error
+          setHistory([]); 
         });
     } else {
-      setHistory([]); // Clear history when no user is logged in
+      setHistory([]); 
     }
-  }, [user]); // Re-run this effect when the user changes
+  }, [user]); 
 
   const handleLoginSuccess = (userData) => {
-    console.log("User logged in:", userData); // Debug log
-    setUser(userData); // Update the user state with the response data
+    console.log("User logged in:", userData); 
+    setUser(userData); 
   };
 
   const handleNewMessage = (message) => {

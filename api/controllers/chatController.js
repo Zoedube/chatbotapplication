@@ -1,10 +1,9 @@
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
-import { GoogleGenerativeAI } from "@google/generative-ai"; // Replace OpenAI with Gemini
+import { GoogleGenerativeAI } from "@google/generative-ai"; 
 import dotenv from "dotenv";
 dotenv.config();
 
-// Initialize Gemini with your API key
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const verifyToken = (req, res, next) => {
@@ -40,7 +39,7 @@ export const sendMessage = [
       if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
       console.log("Sending Gemini request for user:", userId, "with prompt:", prompt);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Free tier model
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
       const result = await model.generateContent(prompt);
       const aiResponse = await result.response.text();
       console.log("Gemini response received:", aiResponse);
@@ -49,7 +48,7 @@ export const sendMessage = [
       const values = [userId, prompt, aiResponse];
       console.log("Executing query with values:", values);
 
-      db.query(q, [values], (err, data) => { // Note: Changed to array [values] for mysql2
+      db.query(q, [values], (err, data) => { 
         if (err) {
           console.error("Database insert error:", err);
           return res.status(500).json({ message: "Database error", details: err.message });

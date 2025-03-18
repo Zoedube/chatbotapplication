@@ -17,7 +17,7 @@ const NavItem = ({ icon: Icon, text, isActive = false }) => {
         isActive ? "bg-gray-50" : ""
       }`}
     >
-      <Icon size={20} /> {/* Use the icon component */}
+      <Icon size={20} />
       <span className="text-sm">{text}</span>
     </button>
   );

@@ -19,7 +19,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
         : { username, email, password };
   
       const response = await axios.post(url, data, {
-        withCredentials: true, // Include cookies
+        withCredentials: true, 
       });
       
       if (isLogin) {

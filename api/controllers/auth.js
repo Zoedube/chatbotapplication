@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 //Code to register into application
-
 export const register = (req, res) => {
   const q = "SELECT * FROM users WHERE email = ? OR username =? ";
 
