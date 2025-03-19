@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import router from './routes/router.js';
 import dotenv from 'dotenv';
-const cors = require('cors');
+import cors from 'cors';
 
 dotenv.config();
 console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY); 
