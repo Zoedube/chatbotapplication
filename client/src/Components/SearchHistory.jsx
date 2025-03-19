@@ -1,6 +1,7 @@
 import React from "react";
 import { IconMessages } from "@tabler/icons-react";
 
+//SearchHistory Code 
 const SearchHistory = ({ history }) => {
   if (history.length === 0) {
     return (

@@ -5,14 +5,13 @@ import axios from "axios";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [history, setHistory] = useState([]); 
+  const [history, setHistory] = useState([]);
 
-  
   useEffect(() => {
     if (user) {
       axios
-        .get("http://localhost:3000/api/chat/history", {
-          withCredentials: true, 
+        .get("http://localhost:5000/api/chat/history", {
+          withCredentials: true,
         })
         .then((response) => {
           console.log("Fetched history for user:", user, response.data);
@@ -20,16 +19,16 @@ function App() {
         })
         .catch((error) => {
           console.error("Error fetching history:", error);
-          setHistory([]); 
+          setHistory([]);
         });
     } else {
-      setHistory([]); 
+      setHistory([]);
     }
-  }, [user]); 
+  }, [user]);
 
   const handleLoginSuccess = (userData) => {
-    console.log("User logged in:", userData); 
-    setUser(userData); 
+    console.log("User logged in:", userData);
+    setUser(userData);
   };
 
   const handleNewMessage = (message) => {

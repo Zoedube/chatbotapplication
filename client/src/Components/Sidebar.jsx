@@ -1,6 +1,7 @@
 import React from "react";
 import { IconMessages, IconUsers, IconFileText, IconNews, IconFile, IconSettings } from '@tabler/icons-react';
 
+//Sidebar Code 
 const navigationItems = [
   { icon: IconMessages, text: "AI Chat", isActive: true },
   { icon: IconUsers, text: "Members" },

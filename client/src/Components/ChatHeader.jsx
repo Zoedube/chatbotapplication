@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AuthModal from './AuthModal';
 
+
+//Code to ChatHeader 
 const ChatHeader = ({ user, onLoginSuccess }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 

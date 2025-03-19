@@ -4,6 +4,7 @@ import SearchHistory from "./SearchHistory";
 import ChatInput from "./ChatInput";
 import ChatFooter from "./ChatFooter";
 
+//Code to InputDesign
 const InputDesign = ({ user, onLoginSuccess, history, onMessageSent }) => {
   return (
     <main className="flex flex-col flex-1 p-6 max-md:p-5 max-sm:p-4">

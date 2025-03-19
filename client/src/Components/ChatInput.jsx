@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { IconSend } from '@tabler/icons-react';
 import axios from 'axios';
 
+
+//Code to ChatInput
 const ChatInput = ({ onMessageSent }) => {
   const [inputValue, setInputValue] = useState("");
 

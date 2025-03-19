@@ -1,5 +1,6 @@
 import React from "react";
 
+//NavItem Code
 const NavItem = ({ icon, text, isActive = false }) => {
   return (
     <button
