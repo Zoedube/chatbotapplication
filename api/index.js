@@ -10,7 +10,7 @@ console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
 const app = express();
 
 app.use(cors({
-  origin: 'https://chatbotapplication-kls4.vercel.app',
+  origin: process.env.REACT_FRONTEND_URL,
   credentials: true,
 }));
 

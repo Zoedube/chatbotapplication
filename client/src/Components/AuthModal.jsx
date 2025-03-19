@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-//Code to Authentication for registering & logging in
+//Code to Authentication for registering &
 const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     setError('');
     
     try {
-      const url = isLogin ? 'https://chatbotapplication-1.onrender.com' : 'https://chatbotapplication-1.onrender.com';
+      const url = isLogin ? 'http://localhost:3000/api/login' : 'http://localhost:3000/api/register';
       const data = isLogin 
         ? { username, password }
         : { username, email, password };
