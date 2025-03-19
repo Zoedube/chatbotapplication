@@ -1,8 +1,8 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import router from './routes/router.js';
 import dotenv from 'dotenv';
+const cors = require('cors');
 
 dotenv.config();
 console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY); 
@@ -10,8 +10,10 @@ console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
 const app = express();
 
 app.use(cors({
-  origin: '*',
-  credentials: true,
+  origin: 'https://chatbotapplication-ykgu.vercel.app/',
+  credentials: true, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
