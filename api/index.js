@@ -10,7 +10,7 @@ console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://chatbotapplication-kls4-e9wk2627m-zoedubes-projects.vercel.app',
   credentials: true,
 }));
 
