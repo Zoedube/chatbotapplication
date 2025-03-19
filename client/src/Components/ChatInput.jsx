@@ -12,7 +12,7 @@ const ChatInput = ({ onMessageSent }) => {
     if (!inputValue.trim()) return;
   
     try {
-      const response = await axios.post('http://localhost:3000/api/chat/send', 
+      const response = await axios.post('https://chatbotapplication-1.onrender.com', 
         { prompt: inputValue },
         { withCredentials: true }
       );

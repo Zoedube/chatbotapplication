@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     if (user) {
       axios
-        .get("http://localhost:5000/api/chat/history", {
+        .get("https://chatbotapplication-1.onrender.com", {
           withCredentials: true,
         })
         .then((response) => {

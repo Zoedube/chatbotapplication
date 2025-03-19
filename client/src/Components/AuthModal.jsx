@@ -14,7 +14,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     setError('');
     
     try {
-      const url = isLogin ? 'http://localhost:3000/api/login' : 'http://localhost:3000/api/register';
+      const url = isLogin ? 'https://chatbotapplication-1.onrender.com' : 'https://chatbotapplication-1.onrender.com';
       const data = isLogin 
         ? { username, password }
         : { username, email, password };
