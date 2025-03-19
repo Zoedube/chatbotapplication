@@ -25,6 +25,9 @@ export const register = (req, res) => {
 }
 
 //Code to check credential details
+export const health = (req, res) => {
+  return res.status(200).json("Backend API works!");
+}
 export const login = (req, res) => {
   const q = "SELECT * FROM users WHERE username = ?";
 
