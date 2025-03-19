@@ -10,7 +10,7 @@ console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
 const app = express();
 
 app.use(cors({
-  origin: 'https://chatbotapplication-ykgu.vercel.app/',
+  origin: 'https://chatbotapplication-ykgu.vercel.app',
   credentials: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
