@@ -45,8 +45,8 @@ export const login = (req, res) => {
     const { password, ...other } = data[0];
     res.cookie("access_token", token, {
       httpOnly: true, 
-      secure: false,
-      sameSite: "Lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 60 * 60 * 1000,
       path: "/",
     }).status(200).json(other);
